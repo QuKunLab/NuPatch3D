@@ -1,0 +1,81 @@
+site_name: NuPatch3D 用户手册
+site_url: https://qukunlab.github.io/NuPatch3D/
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: zh
+          name: 中文
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+          site_name: NuPatch3D User Manual
+          nav_translations:
+            首页: Home
+            快速开始: Getting Started
+            分割结果修复: Segmentation Repair
+            其他功能: Other Features
+            napari基本操作: Napari Basics
+            NuPatch3D的安装与设置: Installation & Setup
+            NuPatch3D的基本操作: Basic Operations
+            欠分割: Under-segmentation
+            过分割: Over-segmentation
+            边界修复: Boundary Fix
+            丢细胞检查: Missing Cell Detection
+            保存与恢复: Save & Recovery
+            保存结果: Save
+            恢复结果: Recovery
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/lang-switcher.js
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - 首页: index.md
+  - 快速开始:
+    - napari基本操作: napari.md
+    - NuPatch3D的安装与设置: environment.md
+    - NuPatch3D的基本操作: loading.md
+  - 分割结果修复:
+    - 欠分割: under.md
+    - 过分割: over.md
+    - 边界修复: boundary.md
+    - 丢细胞检查: missing.md
+  - 保存与恢复:
+    - 保存结果: save.md
+    - 恢复结果: restore.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
