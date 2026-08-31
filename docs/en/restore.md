@@ -1,4 +1,4 @@
-# Restoring Results
+# Recovery
 
 ## 9.1 Undo and Redo
 
