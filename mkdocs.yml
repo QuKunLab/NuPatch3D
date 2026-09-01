@@ -15,7 +15,7 @@ plugins:
           build: true
           site_name: NuPatch3D User Manual
           nav_translations:
-            首页: Home
+            NuPatch3D概述: NuPatch3D Overview
             快速开始: Getting Started
             分割结果修复: Segmentation Repair
             其他功能: Other Features
@@ -59,7 +59,7 @@ theme:
         name: Switch to light mode
 
 nav:
-  - 首页: index.md
+  - NuPatch3D概述: index.md
   - 快速开始:
     - napari基本操作: napari.md
     - NuPatch3D的安装与设置: environment.md

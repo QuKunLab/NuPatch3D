@@ -1,0 +1,14 @@
+name: NuPatch3D
+display_name: NuPatch-3D
+schema_version: 0.1.0 
+
+contributions:
+  commands:
+    - id: NuPatch3D.make_widget
+      python_name: NuPatch3D._widget:NuPatch3DWidget
+      title: Open NuPatch3D Tool
+
+  widgets:
+    - command: NuPatch3D.make_widget
+      display_name: NuPatch3D
+      autogenerate: false

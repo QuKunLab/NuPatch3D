@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "NuPatch3D"
+version = "1.0.0.beta"
+description = "A napari plugin for 3D cell label correction using GMM and Deep Learning."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "J. Wang", email = "jinbowang@mail.ustc.edu.cn"}]
+classifiers = [
+    "Framework :: napari",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "napari",
+    "numpy",
+    "qtpy",
+    "scikit-image",
+    "scikit-learn",
+    "scipy",
+    "pandas",
+    "torch",
+    "tqdm"
+]
+requires-python = ">=3.8"
+
+[project.entry-points."napari.manifest"]
+NuPatch3D = "NuPatch3D:napari.yaml"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
