@@ -57,9 +57,6 @@ The full user manual, video tutorials, and usage instructions are available at t
 ```
 NuPatch3D/
 ├── docs/              # MkDocs documentation source (website)
-│   ├── index.md
-│   ├── en/
-│   └── images/
 ├── NuPatch3D/         # Plugin source code
 │   ├── src/
 │   └── pyproject.toml
