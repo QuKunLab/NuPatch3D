@@ -77,6 +77,7 @@ If you use NuPatch3D in your research, please cite this repository:
 
 ---
 
-## License
+## Help
 
-This project is licensed under the MIT License.
+If you have any questions or require assistance using NuPatch3D, please contact us: hyl2016@ustc.edu.cn .
+
