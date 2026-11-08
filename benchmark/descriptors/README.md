@@ -18,7 +18,7 @@ pip install numpy pandas scipy tifffile scikit-image
 python "convert_labels_to_eclipse_mat.py"
 ```
 
-**2. Extract shape descriptors.** Install ECLiPSE with `CalcDescriptors3D_noImageProps`. Set `eclipse_dir` and `input_root` (the converter's output directory), and adjust `batches` if needed. Run in MATLAB or from the terminal:
+**2. Extract shape descriptors.** Install [ECLiPSE](https://github.com/LakGroup/ECLiPSE) with `CalcDescriptors3D_noImageProps`. Set `eclipse_dir` and `input_root` (the converter's output directory), and adjust `batches` if needed. Run in MATLAB or from the terminal:
 
 ```bash
 matlab -batch "eclipse_batch_run"
