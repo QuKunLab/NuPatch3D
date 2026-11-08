@@ -134,7 +134,7 @@ IMPORTANT:
 
     USR = US_GT_Count / GT_Instance_Count
 
-    FNR = FN_GT_Count / GT_Instance_Count
+    MNR = FN_GT_Count / GT_Instance_Count
 
     FPR = FP_Pred_Count / Pred_Instance_Count
 
@@ -174,7 +174,7 @@ AP_IoU50:
 8. Other metrics
 ============================================================
 
-    FDR
+    FR
     IoU
     HD
     NSD
@@ -822,12 +822,12 @@ def match_instances(
 
 
 # ============================================================
-# FDR
+# FR
 # ============================================================
 
-def fdr_from_overlap(ov, ga):
+def FR_from_overlap(ov, ga):
     """
-    Same FDR as the original implementation:
+    Same FR as the original implementation:
         foreground intersection / GT foreground volume.
     """
     gt_total = int(np.sum(ga))
@@ -2304,7 +2304,7 @@ def _evaluate_method_for_image(
 
     osr = safe_rate(len(over_gt_ids), n_gt)
     usr = safe_rate(len(under_gt_ids), n_gt)
-    fnr = safe_rate(len(fn_gt_ids), n_gt)
+    MNR = safe_rate(len(fn_gt_ids), n_gt)
     fpr = safe_rate(len(fp_pred_ids), n_pred)
 
     mean_iou = iou_metric_from_overlap(ov, ga, pa, one)
@@ -2371,10 +2371,10 @@ def _evaluate_method_for_image(
         'Spacing_Z_um': SPACING[0],
         'Spacing_Y_um': SPACING[1],
         'Spacing_X_um': SPACING[2],
-        'FDR': fdr_from_overlap(ov, ga),
+        'FR': FR_from_overlap(ov, ga),
         'OSR': osr,
         'USR': usr,
-        'FNR': fnr,
+        'MNR': MNR,
         'FPR': fpr,
         'IoU': mean_iou,
         'HD': hd,
