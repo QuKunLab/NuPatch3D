@@ -1,6 +1,6 @@
 # 3D Instance Segmentation Evaluation
 
-Script: `evaluate_3d_segmentation_final_detailed_parallel(2).py`
+Script: [`evaluate_3d_segmentation_parallel.py`](./evaluate_3d_segmentation_parallel.py)
 
 ## Matching Rules
 
@@ -26,10 +26,10 @@ Let $N_G$ and $N_P$ be the numbers of GT and predicted instances.
 
 | Metric | Definition |
 | --- | --- |
-| `FDR` | Foreground intersection voxel count divided by GT foreground voxel count; foreground detection rate, not false discovery rate. |
+| `FR` | Foreground intersection voxel count divided by GT foreground voxel count; foreground detection rate, not false discovery rate. |
 | `OSR` | Number of over-segmented GT instances / $N_G$. |
 | `USR` | Number of under-segmented GT instances / $N_G$. |
-| `FNR` | Number of rule-based FN instances / $N_G$. |
+| `MNR` | Number of rule-based FN instances / $N_G$. |
 | `FPR` | Number of rule-based FP instances / $N_P$. |
 | `IoU` | Mean intersection-over-union over rule-based one-to-one pairs. |
 | `HD` | Mean symmetric Hausdorff distance over rule-based pairs, in μm. |
@@ -68,7 +68,7 @@ pip install numpy pandas scipy tifffile
 Run:
 
 ```bash
-python "evaluate_3d_segmentation_final_detailed_parallel(2).py" \
+python evaluate_3d_segmentation_parallel.py \
   --gt-dir /path/to/ground_truth \
   --pred-root /path/to/predictions \
   --output results/metrics.csv \

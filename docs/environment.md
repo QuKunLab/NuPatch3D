@@ -9,6 +9,8 @@
 
 ## 2.2 安装 NuPatch3D
 
+插件要求 **Python >=3.10**（推荐使用 Python 3.11）、**NumPy >=2.0,<3** 和 **napari >=0.6,<0.7**。NumPy 下限来自代码使用的 `np.asarray(..., copy=True)` 接口。以上为依赖与接口要求，尚不代表所有版本组合均已完成运行测试。Benchmark 中的分割算法应使用各自的独立环境。
+
 NuPatch3D 是一款基于 [napari](https://napari.org/) 开发的插件，目前已适配 napari 0.6 版本。其他版本的 napari 可能存在兼容性问题。
 
 目前，NuPatch3D 仅提供通过 GitHub 源码安装的方式，具体步骤如下：
@@ -21,10 +23,10 @@ conda create -n napari-env python=3.11
 conda activate napari-env
 
 # 3. 安装 napari
-pip install "napari[all]"
+pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
 # 4. 从 GitHub 直接安装 NuPatch3D
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D"
+pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D tool"
 ```
 
 若希望将仓库克隆到本地（例如进行开发调试），可执行以下步骤：
@@ -32,7 +34,7 @@ pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3
 ```bash
 # 4. 克隆仓库
 git clone https://github.com/QuKunLab/NuPatch3D.git
-cd NuPatch3D/NuPatch3D
+cd "NuPatch3D/NuPatch3D tool"
 
 # 5. 安装 NuPatch3D
 pip install .

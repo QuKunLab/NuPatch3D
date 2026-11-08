@@ -11,6 +11,8 @@ The above configurations are verified environments; other hardware platforms are
 
 NuPatch3D is a plugin developed based on [napari](https://napari.org/). It is currently adapted for napari 0.6. Other napari versions may have compatibility issues.
 
+The plugin requires **Python >=3.10** (Python 3.11 recommended), **NumPy >=2.0,<3**, and **napari >=0.6,<0.7**. The NumPy minimum is required by `np.asarray(..., copy=True)`. These are dependency and API requirements, not a claim that every version combination has been runtime-tested. Benchmark segmentation methods should use separate, method-specific environments.
+
 At present, NuPatch3D is only available via GitHub source installation. Follow the steps below:
 
 ```bash
@@ -21,10 +23,10 @@ conda create -n napari-env python=3.11
 conda activate napari-env
 
 # 3. Install napari
-pip install "napari[all]"
+pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
 # 4. Install NuPatch3D directly from GitHub
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D"
+pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D tool"
 ```
 
 Alternatively, if you prefer to clone the repository locally (e.g., for development):
@@ -32,7 +34,7 @@ Alternatively, if you prefer to clone the repository locally (e.g., for developm
 ```bash
 # 4. Clone the repository
 git clone https://github.com/QuKunLab/NuPatch3D.git
-cd NuPatch3D/NuPatch3D
+cd "NuPatch3D/NuPatch3D tool"
 
 # 5. Install NuPatch3D
 pip install .

@@ -1,83 +1,65 @@
 # NuPatch3D
 
-**NuPatch3D** is a [napari](https://napari.org/) plugin for post-processing 3D cell nucleus segmentation results. It provides interactive tools to correct common segmentation errors, including under-segmentation, over-segmentation, missing cells, and boundary inaccuracies.
+**NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear instance segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
 
----
+The repository contains three parallel modules, each with a dedicated folder and README:
 
-## Features
+| Module | Overview | Documentation |
+| --- | --- | --- |
+| **[NuPatch3D Tool](./NuPatch3D%20tool/README.md)** | A napari plugin for interactive correction of over-segmentation, under-segmentation, missed nuclei, and boundary errors. | [Features and installation](./NuPatch3D%20tool/README.md) · [User manual](https://qukunlab.github.io/NuPatch3D/en/) |
+| **[NuPatch3D Dataset](./NuPatch3D%20dataset/README.md)** | A dataset with approximately 1.01 million annotated nuclei, 2,672 z-stacks, 16 samples, and 5 species; human and mouse data are public, and labels are available upon request through the OMIX website. | [Dataset details](./NuPatch3D%20dataset/README.md) · [Data access](./NuPatch3D%20dataset/README.md#availability) |
+| **[Benchmark](./Benchmark/README.md)** | Evaluation and analysis code accompanying the comparison of fourteen 3D nuclear segmentation algorithms. | [Benchmark guide](./Benchmark/README.md) · [Evaluation metrics](./Benchmark/metrics/README.md) |
 
-- **Local editing** — Extract and refine individual cells or neighborhoods in an isolated bounding box; changes are written back to the global segmentation only after you Commit
-- **Under-segmentation split** — Separate merged cells using plane-based, GMM auto, manual center modes
-- **Over-segmentation merge** — Merge fragmented labels or delete spurious ones
-- **Boundary refinement** — Adjust cell boundaries based on local image intensity
-- **Missing cell detection** — Add omitted cells via interactive seed points and watershed
-- **Full undo/redo & JSON logging** — Up to 10-step undo/redo with traceable, reproducible editing workflow; supports recovery from JSON logs
-- **Seamless napari integration** — Works with native napari brush, eraser, and fill tools; all operations are recorded in the unified edit history
+## NuPatch3D Tool
 
----
+Interactively refine 3D nuclear segmentation results in napari, with local editing, undo/redo, JSON logging, and integration with native annotation tools.
 
-## Requirements
+**[Explore the tool and installation instructions →](./NuPatch3D%20tool/README.md)**
 
-- **OS**: Windows 10 or macOS 26 (Tahoe) and above
-- **RAM**: 16 GB or more
-- **napari**: 0.6.x (other versions may have compatibility issues)
+## NuPatch3D Dataset
 
-## Installation
+Explore annotations spanning multiple species, sample types, and imaging conditions, including representative human GBM and mouse pancreas data. The data are hosted on OMIX in three parts: human and mouse data are publicly accessible, while labels are available upon request through the OMIX website, subject to applicable policies. The module README provides dataset details and access instructions.
 
-### Quick install (recommended)
+**[Explore the dataset and access information →](./NuPatch3D%20dataset/README.md)**
 
-```bash
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D"
-```
+## Benchmark
 
-### Local clone (for development)
+Find method-specific segmentation scripts, instance/voxel/boundary evaluation metrics, descriptor extraction, and analysis notebooks.
 
-```bash
-git clone https://github.com/QuKunLab/NuPatch3D.git
-cd NuPatch3D/NuPatch3D
-pip install .
-```
-
-> **Note:** This plugin is tested on napari 0.6. Other versions may have compatibility issues.
-
----
-
-## Documentation
-
-- **User Manual:** https://qukunlab.github.io/NuPatch3D/
-- **English:** https://qukunlab.github.io/NuPatch3D/en/
-- **中文:** https://qukunlab.github.io/NuPatch3D/
-
-The full user manual, video tutorials, and usage instructions are available at the links above.
-
----
+**[Explore the benchmark and evaluation instructions →](./Benchmark/README.md)**
 
 ## Repository Structure
 
-```
+```text
 NuPatch3D/
-├── docs/              # MkDocs documentation source (website)
-├── NuPatch3D/         # Plugin source code
-│   ├── src/
+├── README.md                    # Repository overview and module navigation
+├── NuPatch3D tool/              # NuPatch3D Tool
+│   ├── README.md                # Features, installation, and user guides
+│   ├── src/NuPatch3D/
 │   └── pyproject.toml
+├── NuPatch3D dataset/           # NuPatch3D Dataset
+│   └── README.md                # Data description, figures, and access details
+├── Benchmark/                  # Benchmark
+│   ├── README.md                # Benchmark overview and evaluation usage
+│   ├── segmentation_scripts/
+│   ├── metrics/
+│   ├── descriptors/
+│   └── plot/
+├── assets/figures/              # Shared figures for module documentation
+├── docs/                        # Tool user manual (Chinese and English)
 ├── mkdocs.yml
-└── .github/workflows/ci.yml
+├── .github/workflows/ci.yml
+└── LICENSE
 ```
-
-- `docs/` — Documentation and website source files (built to `gh-pages` branch via GitHub Actions)
-- `NuPatch3D/` — Python plugin source and `pyproject.toml` for `pip install`
-
----
 
 ## Citation
 
-If you use NuPatch3D in your research, please cite this repository:
+If you use NuPatch3D in your research, please cite:
 
-> Y. Hu, *et al.*, Benchmarking 3D nuclear segmentation with the atlas-scale NuPatch3D dataset
+> Y. Hu, *et al.*, Benchmarking 3D nuclear segmentation with the NuPatch3D atlas
 
----
+Full publication details and a BibTeX entry will be added when available.
 
-## Help
+## Contact
 
-If you have any questions or require assistance using NuPatch3D, please contact us: hyl2016@ustc.edu.cn .
-
+For questions about NuPatch3D, contact [hyl2016@ustc.edu.cn](mailto:hyl2016@ustc.edu.cn).
