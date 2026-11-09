@@ -17,12 +17,6 @@ The human, mouse, and label collections are deposited in **OMIX**. And the publi
 
 To access the **NuPatch3D dataset label** collection, submit a data access request through the OMIX website for the corresponding collection. We welcome requests and will approve them whenever permitted by applicable policies.
 
-### Additional public data
-
-The **NuPatch3D dataset public** collection is available through a USTC Cloud sharing link:
-
-[Access the public data on USTC Cloud](https://pan.ustc.edu.cn/share/index/624ff2ae2f5a4bb7b247).
-
 ## Dataset construction
 
 ![NuPatch3D dataset construction workflow](../assets/figures/NuPatch3D_dataset_generation_pipeline.png)
