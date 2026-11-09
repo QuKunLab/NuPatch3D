@@ -1,6 +1,6 @@
 # NuPatch3D
 
-**NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear instance segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
+**NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
 
 The repository contains three parallel modules, each with a dedicated folder and README:
 
@@ -8,7 +8,7 @@ The repository contains three parallel modules, each with a dedicated folder and
 | --- | --- | --- |
 | **[NuPatch3D Tool](./NuPatch3D%20tool/README.md)** | A napari plugin for interactive correction of over-segmentation, under-segmentation, missed nuclei, and boundary errors. | [Features and installation](./NuPatch3D%20tool/README.md) · [User manual](https://qukunlab.github.io/NuPatch3D/en/) |
 | **[NuPatch3D Dataset](./NuPatch3D%20dataset/README.md)** | A dataset with approximately 1.01 million annotated nuclei, 2,672 z-stacks, 16 samples, and 5 species; human and mouse data are public, and labels are available upon request through the OMIX website. | [Dataset details](./NuPatch3D%20dataset/README.md) · [Data access](./NuPatch3D%20dataset/README.md#availability) |
-| **[Benchmark](./Benchmark/README.md)** | Evaluation and analysis code accompanying the comparison of fourteen 3D nuclear segmentation algorithms. | [Benchmark guide](./benchmark/README.md) · [Evaluation metrics](./benchmark/metrics/README.md) |
+| **[Benchmark](./Benchmark/README.md)** | Evaluation and analysis code accompanying the comparison of fourteen 3D nuclear segmentation algorithms. | [Benchmark guide](./Benchmark/README.md) · [Evaluation metrics](./Benchmark/metrics/README.md) |
 
 ## NuPatch3D Tool
 
