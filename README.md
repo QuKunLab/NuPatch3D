@@ -1,6 +1,6 @@
 # NuPatch3D
 
-**NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear instance segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
+**NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
 
 The repository contains three parallel modules, each with a dedicated folder and README:
 
