@@ -26,7 +26,7 @@ conda activate napari-env
 pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
 # 4. 从 GitHub 直接安装 NuPatch3D
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D tool"
+pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D-tool"
 ```
 
 若希望将仓库克隆到本地（例如进行开发调试），可执行以下步骤：
@@ -34,7 +34,7 @@ pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3
 ```bash
 # 4. 克隆仓库
 git clone https://github.com/QuKunLab/NuPatch3D.git
-cd "NuPatch3D/NuPatch3D tool"
+cd "NuPatch3D/NuPatch3D-tool"
 
 # 5. 安装 NuPatch3D
 pip install .

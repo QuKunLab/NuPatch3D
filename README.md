@@ -2,29 +2,29 @@
 
 **NuPatch3D** brings together tools, data, and evaluation code for 3D nuclear segmentation. This repository accompanies *Benchmarking 3D nuclear segmentation with the NuPatch3D atlas*.
 
-The repository contains three parallel modules, each with a dedicated folder and README:
+The repository contains three modules, each with a dedicated folder and README:
 
 | Module | Overview | Documentation |
 | --- | --- | --- |
-| **[NuPatch3D Tool](./NuPatch3D%20tool/README.md)** | A napari plugin for interactive correction of over-segmentation, under-segmentation, missed nuclei, and boundary errors. | [Features and installation](./NuPatch3D%20tool/README.md) · [User manual](https://qukunlab.github.io/NuPatch3D/en/) |
-| **[NuPatch3D Dataset](./NuPatch3D%20dataset/README.md)** | A dataset with approximately 1.01 million annotated nuclei, 2,672 z-stacks, 16 samples, and 5 species; human and mouse data are public, and labels are available upon request through the OMIX website. | [Dataset details](./NuPatch3D%20dataset/README.md) · [Data access](./NuPatch3D%20dataset/README.md#availability) |
+| **[NuPatch3D Tool](./NuPatch3D-tool/README.md)** | A napari plugin for interactive correction of over-segmentation, under-segmentation, missed nuclei, and boundary errors. | [Features and installation](./NuPatch3D-tool/README.md) · [User manual](https://qukunlab.github.io/NuPatch3D/en/) |
+| **[NuPatch3D Dataset](./NuPatch3D-dataset/README.md)** | A dataset with approximately 1.01 million annotated nuclei, 2,672 z-stacks, 16 samples, and 5 species | [Dataset details](./NuPatch3D-dataset/README.md) · [Data access](./NuPatch3D-dataset/README.md#availability) |
 | **[Benchmark](./Benchmark/README.md)** | Evaluation and analysis code accompanying the comparison of fourteen 3D nuclear segmentation algorithms. | [Benchmark guide](./Benchmark/README.md) · [Evaluation metrics](./Benchmark/metrics/README.md) |
 
 ## NuPatch3D Tool
 
 Interactively refine 3D nuclear segmentation results in napari, with local editing, undo/redo, JSON logging, and integration with native annotation tools.
 
-**[Explore the tool and installation instructions →](./NuPatch3D%20tool/README.md)**
+**[Explore the tool and installation instructions →](./NuPatch3D-tool/README.md)**
 
 ## NuPatch3D Dataset
 
-Explore annotations spanning multiple species, sample types, and imaging conditions, including representative human GBM and mouse pancreas data. The data are hosted on OMIX in three parts: human and mouse data are publicly accessible, while labels are available upon request through the OMIX website, subject to applicable policies. The module README provides dataset details and access instructions.
+Explore annotations spanning multiple species, sample types, and imaging conditions, including representative human GBM and mouse pancreas example data. The module README provides dataset details and access instructions.
 
-**[Explore the dataset and access information →](./NuPatch3D%20dataset/README.md)**
+**[Explore the dataset and access information →](./NuPatch3D-dataset/README.md)**
 
 ## Benchmark
 
-Find method-specific segmentation scripts, instance/voxel/boundary evaluation metrics, descriptor extraction, and analysis notebooks.
+Find method-specific segmentation scripts, evaluation metrics, descriptor extraction, and analysis notebooks.
 
 **[Explore the benchmark and evaluation instructions →](./Benchmark/README.md)**
 
@@ -33,11 +33,11 @@ Find method-specific segmentation scripts, instance/voxel/boundary evaluation me
 ```text
 NuPatch3D/
 ├── README.md                    # Repository overview and module navigation
-├── NuPatch3D tool/              # NuPatch3D Tool
+├── NuPatch3D-tool/              # NuPatch3D Tool
 │   ├── README.md                # Features, installation, and user guides
 │   ├── src/NuPatch3D/
 │   └── pyproject.toml
-├── NuPatch3D dataset/           # NuPatch3D Dataset
+├── NuPatch3D-dataset/           # NuPatch3D Dataset
 │   └── README.md                # Data description, figures, and access details
 ├── Benchmark/                  # Benchmark
 │   ├── README.md                # Benchmark overview and evaluation usage

@@ -26,7 +26,7 @@ conda activate napari-env
 pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
 # 4. Install NuPatch3D directly from GitHub
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D tool"
+pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D-tool"
 ```
 
 Alternatively, if you prefer to clone the repository locally (e.g., for development):
@@ -34,7 +34,7 @@ Alternatively, if you prefer to clone the repository locally (e.g., for developm
 ```bash
 # 4. Clone the repository
 git clone https://github.com/QuKunLab/NuPatch3D.git
-cd "NuPatch3D/NuPatch3D tool"
+cd "NuPatch3D/NuPatch3D-tool"
 
 # 5. Install NuPatch3D
 pip install .

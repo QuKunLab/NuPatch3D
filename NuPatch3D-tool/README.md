@@ -35,17 +35,16 @@ These requirements apply to the NuPatch3D plugin. Benchmark segmentation methods
 Install napari and the plugin in your Python environment:
 
 ```bash
-conda create -n napari-env python=3.11
-conda activate napari-env
-pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D tool"
+conda create -n NuPatch3D python=3.11
+conda activate NuPatch3D
+pip install NuPatch3D
 ```
 
 For local development:
 
 ```bash
 git clone https://github.com/QuKunLab/NuPatch3D.git
-cd "NuPatch3D/NuPatch3D tool"
+cd "NuPatch3D/NuPatch3D-tool"
 pip install -e .
 ```
 
@@ -61,4 +60,4 @@ Launch napari with `napari`, then open **Plugins → NuPatch3D (NuPatch-3D)**. L
 
 ## Related modules
 
-[NuPatch3D Dataset](../NuPatch3D%20dataset/README.md) · [Benchmark](../Benchmark/README.md)
+[NuPatch3D Dataset](../NuPatch3D-dataset/README.md) · [Benchmark](../Benchmark/README.md)

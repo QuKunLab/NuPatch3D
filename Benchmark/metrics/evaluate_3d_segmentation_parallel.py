@@ -8,8 +8,6 @@ Optimized implementation:
     - exact same metric/classification definitions
     - prediction files indexed once
     - vectorized overlap/matching reductions
-    - surface maps precomputed once per label image
-    - GT surface/KD-tree data reused across methods
     - process-level parallelism across GT images
 
 ============================================================
@@ -136,38 +134,20 @@ IMPORTANT:
 
     MNR = FN_GT_Count / GT_Instance_Count
 
-    FPR = FP_Pred_Count / Pred_Instance_Count
 
 
 ============================================================
 7. AP definitions
 ============================================================
 
-AP_RuleBased:
+AP:
 
     TP = number of one-to-one matches defined above
     FP = rule-based FP
     FN = rule-based FN
 
-    AP_RuleBased = TP / (TP + FP + FN)
+    AP = TP / (TP + FP + FN)
 
-
-AP_IoU50:
-
-    Build GT-Pred IoU matrix.
-
-    Find one-to-one instance matching at:
-
-        IoU >= 0.5
-
-    The assignment maximizes the number of valid IoU>=0.5
-    matches first, and IoU second.
-
-    Then:
-
-        AP_IoU50 =
-            IoU50_TP /
-            (IoU50_TP + IoU50_FP + IoU50_FN)
 
 
 ============================================================
@@ -176,11 +156,8 @@ AP_IoU50:
 
     FR
     IoU
-    HD
-    NSD
-    ARI
 
-IoU / HD / NSD are calculated on rule-based one-to-one pairs.
+IoU is calculated on rule-based one-to-one pairs.
 
 
 ============================================================
@@ -219,11 +196,6 @@ The mathematical inequalities are implemented strictly:
 Therefore a value exactly equal to the threshold is not included
 in either > threshold or < threshold categories.
 
-For AP_IoU50 only:
-
-    IoU >= 0.5
-
-is used, following the conventional IoU threshold interpretation.
 """
 
 import argparse
@@ -237,9 +209,6 @@ import numpy as np
 import pandas as pd
 import tifffile
 
-from scipy import ndimage as ndi
-from scipy.spatial import cKDTree
-from scipy.optimize import linear_sum_assignment
 
 
 # ============================================================
@@ -282,8 +251,6 @@ VOXEL_VOLUME_UM3 = float(
     np.prod(SPACING)
 )
 
-# Fixed AP IoU threshold requested by user
-AP_IOU_THRESHOLD = 0.5
 
 
 # ============================================================
@@ -861,169 +828,6 @@ def iou_metric_from_overlap(ov, ga, pa, pairs):
 
 
 # ============================================================
-# Surface
-# ============================================================
-
-def build_surface_point_groups(labels):
-    """
-    Precompute physical surface coordinates for every instance in one pass.
-
-    This is exactly equivalent to repeatedly evaluating:
-        mask & (~ndi.binary_erosion(mask))
-    with scipy's default connectivity-1 structure, but avoids one erosion
-    and one full-volume scan per matched instance.
-
-    Returns a list where groups[i] contains the physical (z,y,x) surface
-    coordinates for label i+1.
-    """
-    n_labels = int(labels.max())
-    if n_labels == 0:
-        return []
-
-    structure = ndi.generate_binary_structure(labels.ndim, 1)
-
-    # A label voxel is interior iff every voxel selected by the same
-    # connectivity-1 footprint has exactly the same label.  Both min and
-    # max are needed because neighboring labels can be numerically smaller
-    # or larger.
-    local_min = ndi.minimum_filter(
-        labels,
-        footprint=structure,
-        mode='constant',
-        cval=0,
-    )
-    local_max = ndi.maximum_filter(
-        labels,
-        footprint=structure,
-        mode='constant',
-        cval=0,
-    )
-
-    foreground = labels > 0
-    interior = foreground & (local_min == labels) & (local_max == labels)
-    surface_mask = foreground & (~interior)
-
-    if not np.any(surface_mask):
-        return [np.empty((0, labels.ndim), dtype=np.float64) for _ in range(n_labels)]
-
-    ids = labels[surface_mask].astype(np.int64, copy=False) - 1
-    coords = np.argwhere(surface_mask).astype(np.float64, copy=False)
-
-    spacing = np.asarray(SPACING, dtype=np.float64)
-    if labels.ndim != len(spacing):
-        raise ValueError(
-            f'SPACING has {len(spacing)} dimensions but label image has '
-            f'{labels.ndim} dimensions.'
-        )
-    coords *= spacing
-
-    # Stable sort preserves the same row-major coordinate order within each
-    # label as np.argwhere(surface(labels == id)) in the original code.
-    order = np.argsort(ids, kind='stable')
-    ids_sorted = ids[order]
-    coords_sorted = coords[order]
-
-    bounds = np.searchsorted(
-        ids_sorted,
-        np.arange(n_labels + 1),
-        side='left',
-    )
-
-    return [
-        coords_sorted[bounds[i]:bounds[i + 1]]
-        for i in range(n_labels)
-    ]
-
-
-# ============================================================
-# HD + NSD
-# ============================================================
-
-def hd_nsd_from_surface_groups(
-    gt_surface_groups,
-    pred_surface_groups,
-    pairs,
-    tol=1.0,
-    gt_tree_cache=None,
-):
-    """
-    Same HD and NSD definitions as the original implementation.
-
-    Surface coordinates are precomputed once per label image.  GT KD-trees
-    may be cached and reused across all methods for the same GT image.
-    """
-    hd_values = []
-    nsd_values = []
-
-    if gt_tree_cache is None:
-        gt_tree_cache = {}
-
-    for i, j in pairs:
-        a = gt_surface_groups[i]
-        b = pred_surface_groups[j]
-
-        if len(a) == 0 or len(b) == 0:
-            continue
-
-        tree_a = gt_tree_cache.get(i)
-        if tree_a is None:
-            tree_a = cKDTree(a)
-            gt_tree_cache[i] = tree_a
-
-        tree_b = cKDTree(b)
-
-        # Keep one thread per process to avoid nested oversubscription when
-        # the outer image loop is parallelized with multiple processes.
-        da = tree_b.query(a, workers=1)[0]
-        db = tree_a.query(b, workers=1)[0]
-
-        hd_values.append(
-            max(float(da.max()), float(db.max()))
-        )
-
-        nsd_values.append(
-            float(
-                (np.sum(da <= tol) + np.sum(db <= tol))
-                / (len(da) + len(db))
-            )
-        )
-
-    hd_value = float(np.mean(hd_values)) if hd_values else np.nan
-    nsd_value = float(np.mean(nsd_values)) if nsd_values else np.nan
-    return hd_value, nsd_value
-
-
-# ============================================================
-# ARI
-# ============================================================
-
-def ari_from_overlap(ov):
-    """
-    Same ARI as the original evaluator.
-
-    The original pandas.crosstab on voxels where GT>0 and Pred>0 is exactly
-    the already-computed overlap contingency matrix, so no voxel rescan or
-    DataFrame construction is necessary.
-    """
-    table = ov.astype(np.float64, copy=False)
-    n = float(np.sum(table))
-    if n < 2:
-        return np.nan
-
-    def c2(x):
-        return np.sum(x * (x - 1) / 2)
-
-    a = c2(table)
-    b = c2(np.sum(table, axis=1))
-    c = c2(np.sum(table, axis=0))
-    total_pairs = n * (n - 1) / 2
-    expected = b * c / total_pairs
-    denominator = 0.5 * (b + c) - expected
-
-    return float((a - expected) / (denominator + 1e-12))
-
-
-# ============================================================
 # Rule-based AP
 # ============================================================
 
@@ -1094,245 +898,6 @@ def rule_based_ap_details(
         tp,
         fp,
         fn
-    )
-
-
-# ============================================================
-# IoU-based AP
-# ============================================================
-
-def iou_ap_details(
-    ov,
-    ga,
-    pa,
-    threshold=0.5
-):
-    """
-    AP based purely on instance IoU threshold.
-
-    A GT-Pred pair is valid if:
-
-        IoU >= threshold
-
-    One-to-one assignment is performed such that:
-
-        1. number of valid matches is maximized first
-        2. IoU is maximized second
-
-    This is preferable to simply applying Hungarian assignment
-    to -IoU, because maximizing total IoU alone can sometimes
-    produce fewer threshold-valid TP pairs.
-
-    Returns:
-
-        AP
-        TP
-        FP
-        FN
-        mean IoU of matched TP pairs
-    """
-
-    n_gt = len(
-        ga
-    )
-
-    n_pred = len(
-        pa
-    )
-
-    # ========================================================
-    # Empty cases
-    # ========================================================
-
-    if (
-        n_gt == 0
-        and
-        n_pred == 0
-    ):
-
-        return (
-            np.nan,
-            0,
-            0,
-            0,
-            np.nan
-        )
-
-    if n_gt == 0:
-
-        return (
-            0.0,
-            0,
-            n_pred,
-            0,
-            np.nan
-        )
-
-    if n_pred == 0:
-
-        return (
-            0.0,
-            0,
-            0,
-            n_gt,
-            np.nan
-        )
-
-    # ========================================================
-    # IoU matrix
-    # ========================================================
-
-    union = (
-        ga[:, None]
-        +
-        pa[None, :]
-        -
-        ov
-    )
-
-    iou = (
-        ov
-        /
-        (
-            union
-            +
-            1e-12
-        )
-    )
-
-    # ========================================================
-    # Valid IoU matches
-    # ========================================================
-
-    valid = (
-        iou
-        >=
-        threshold
-    )
-
-    # ========================================================
-    # Hungarian assignment
-    #
-    # We want:
-    #
-    # 1. maximize number of valid pairs
-    # 2. among equal-cardinality solutions, maximize IoU
-    #
-    # Each valid pair contributes ~1.
-    #
-    # The IoU bonus across ALL selected pairs is guaranteed to
-    # be < 0.5, so gaining one valid pair is always more
-    # important than any possible IoU bonus difference.
-    # ========================================================
-
-    n_possible_matches = min(
-        n_gt,
-        n_pred
-    )
-
-    bonus_scale = (
-        2.0
-        *
-        max(
-            n_possible_matches,
-            1
-        )
-    )
-
-    score = (
-        valid.astype(float)
-        +
-        iou
-        /
-        bonus_scale
-    )
-
-    row_ind, col_ind = (
-        linear_sum_assignment(
-            -score
-        )
-    )
-
-    # ========================================================
-    # Count TP
-    # ========================================================
-
-    matched_valid = valid[
-        row_ind,
-        col_ind
-    ]
-
-    tp = int(
-        np.sum(
-            matched_valid
-        )
-    )
-
-    fp = int(
-        n_pred
-        -
-        tp
-    )
-
-    fn = int(
-        n_gt
-        -
-        tp
-    )
-
-    denominator = (
-        tp
-        +
-        fp
-        +
-        fn
-    )
-
-    if denominator == 0:
-
-        ap_value = np.nan
-
-    else:
-
-        ap_value = (
-            tp
-            /
-            denominator
-        )
-
-    # ========================================================
-    # Mean IoU among TP pairs
-    # ========================================================
-
-    if tp > 0:
-
-        matched_iou = iou[
-            row_ind[
-                matched_valid
-            ],
-            col_ind[
-                matched_valid
-            ]
-        ]
-
-        mean_matched_iou = float(
-            np.mean(
-                matched_iou
-            )
-        )
-
-    else:
-
-        mean_matched_iou = np.nan
-
-    return (
-        float(ap_value)
-        if not np.isnan(ap_value)
-        else np.nan,
-        tp,
-        fp,
-        fn,
-        mean_matched_iou
     )
 
 
@@ -2241,8 +1806,6 @@ def _evaluate_method_for_image(
     match_threshold,
     tolerance,
     underseg_threshold,
-    nsd_tolerance_um,
-    gt_surface_state,
 ):
     """Evaluate one GT/prediction pair without changing metric definitions."""
     pred = read_label(pred_path)
@@ -2267,14 +1830,9 @@ def _evaluate_method_for_image(
         # After cropping, recompute only the shape-dependent GT data.
         gt_for_eval = gt_eval
         gt_areas_for_eval = areas(gt_for_eval)
-        gt_surface_state_for_eval = {
-            'groups': None,
-            'tree_cache': {},
-        }
     else:
         gt_for_eval = gt
         gt_areas_for_eval = gt_areas
-        gt_surface_state_for_eval = gt_surface_state
 
     pred = pred_eval
     pred_areas = areas(pred)
@@ -2305,46 +1863,13 @@ def _evaluate_method_for_image(
     osr = safe_rate(len(over_gt_ids), n_gt)
     usr = safe_rate(len(under_gt_ids), n_gt)
     MNR = safe_rate(len(fn_gt_ids), n_gt)
-    fpr = safe_rate(len(fp_pred_ids), n_pred)
 
     mean_iou = iou_metric_from_overlap(ov, ga, pa, one)
-
-    # Surface extraction is expensive, so compute it only when there is at
-    # least one rule-based one-to-one pair.  GT surfaces are computed once
-    # and reused across every method for this image.
-    if one:
-        if gt_surface_state_for_eval['groups'] is None:
-            gt_surface_state_for_eval['groups'] = build_surface_point_groups(gt_for_eval)
-
-        pred_surface_groups = build_surface_point_groups(pred)
-        hd, nsd = hd_nsd_from_surface_groups(
-            gt_surface_groups=gt_surface_state_for_eval['groups'],
-            pred_surface_groups=pred_surface_groups,
-            pairs=one,
-            tol=nsd_tolerance_um,
-            gt_tree_cache=gt_surface_state_for_eval['tree_cache'],
-        )
-    else:
-        hd = np.nan
-        nsd = np.nan
 
     ap_rule, rule_tp, rule_fp, rule_fn = rule_based_ap_details(
         one=one,
         fp_pred_ids=fp_pred_ids,
         fn_gt_ids=fn_gt_ids,
-    )
-
-    (
-        ap_iou50,
-        iou50_tp,
-        iou50_fp,
-        iou50_fn,
-        iou50_mean_iou,
-    ) = iou_ap_details(
-        ov=ov,
-        ga=ga,
-        pa=pa,
-        threshold=AP_IOU_THRESHOLD,
     )
 
     intermediate = collect_intermediate_statistics(
@@ -2366,8 +1891,6 @@ def _evaluate_method_for_image(
         'Match_Threshold': match_threshold,
         'Tolerance': tolerance,
         'Underseg_Threshold': underseg_threshold,
-        'AP_IoU_Threshold': AP_IOU_THRESHOLD,
-        'NSD_Tolerance_um': nsd_tolerance_um,
         'Spacing_Z_um': SPACING[0],
         'Spacing_Y_um': SPACING[1],
         'Spacing_X_um': SPACING[2],
@@ -2375,20 +1898,11 @@ def _evaluate_method_for_image(
         'OSR': osr,
         'USR': usr,
         'MNR': MNR,
-        'FPR': fpr,
         'IoU': mean_iou,
-        'HD': hd,
-        'NSD': nsd,
-        'ARI': ari_from_overlap(ov),
-        'AP_RuleBased': ap_rule,
+        'AP': ap_rule,
         'Rule_TP_Count': rule_tp,
         'Rule_FP_Count': rule_fp,
         'Rule_FN_Count': rule_fn,
-        'AP_IoU50': ap_iou50,
-        'IoU50_TP_Count': iou50_tp,
-        'IoU50_FP_Count': iou50_fp,
-        'IoU50_FN_Count': iou50_fn,
-        'IoU50_Matched_Mean_IoU': iou50_mean_iou,
     }
     row.update(intermediate)
 
@@ -2396,12 +1910,12 @@ def _evaluate_method_for_image(
         f'{method}: GT={n_gt}, Pred={n_pred}, TP(pair)={rule_tp}, '
         f'OS_GT={len(over_gt_ids)}, US_GT={len(under_gt_ids)}, '
         f'US_Pred={len(under_pred_ids)}, FN={rule_fn}, FP={rule_fp}, '
-        f'AP_rule={ap_rule:.4f}' if not np.isnan(ap_rule)
+        f'AP={ap_rule:.4f}' if not np.isnan(ap_rule)
         else
         f'{method}: GT={n_gt}, Pred={n_pred}, TP(pair)={rule_tp}, '
         f'OS_GT={len(over_gt_ids)}, US_GT={len(under_gt_ids)}, '
         f'US_Pred={len(under_pred_ids)}, FN={rule_fn}, FP={rule_fp}, '
-        'AP_rule=nan'
+        'AP=nan'
     )
 
     return row, summary, shape_warning
@@ -2412,8 +1926,7 @@ def _process_image_job(job):
     Worker unit = one GT image plus all available methods.
 
     This is intentionally image-level rather than image-method-level so the
-    GT volume, GT areas, and GT surface/KD-tree data are reused across all
-    methods for the same image.
+    GT volume and GT areas are reused across all methods for the same image.
     """
     (
         image_index,
@@ -2423,17 +1936,12 @@ def _process_image_job(job):
         match_threshold,
         tolerance,
         underseg_threshold,
-        nsd_tolerance_um,
     ) = job
 
     gt_path = Path(gt_path_str)
     gt = read_label(gt_path)
     gt_areas = areas(gt)
 
-    gt_surface_state = {
-        'groups': None,
-        'tree_cache': {},
-    }
 
     rows = []
     summaries = []
@@ -2450,8 +1958,6 @@ def _process_image_job(job):
             match_threshold=match_threshold,
             tolerance=tolerance,
             underseg_threshold=underseg_threshold,
-            nsd_tolerance_um=nsd_tolerance_um,
-            gt_surface_state=gt_surface_state,
         )
         rows.append(row)
         summaries.append(summary)
@@ -2510,12 +2016,6 @@ def main():
         help='Independent under-segmentation threshold. US uses overlap / GT volume. Default = 0.5.',
     )
     parser.add_argument(
-        '--nsd-tolerance-um',
-        type=float,
-        default=1.0,
-        help='NSD surface tolerance in micrometers. Default = 1.0.',
-    )
-    parser.add_argument(
         '--workers',
         type=int,
         default=0,
@@ -2539,8 +2039,6 @@ def main():
         raise ValueError('--underseg-threshold must be between 0 and 1.')
     if not 0 <= args.tolerance <= 1:
         raise ValueError('--tolerance must be between 0 and 1.')
-    if args.nsd_tolerance_um < 0:
-        raise ValueError('--nsd-tolerance-um must be >= 0.')
     if args.workers < 0:
         raise ValueError('--workers must be >= 0.')
     if args.chunksize < 1:
@@ -2555,8 +2053,6 @@ def main():
     print(f'Match threshold      : {args.match_threshold}')
     print(f'Tolerance            : {args.tolerance}')
     print(f'Underseg threshold   : {args.underseg_threshold}')
-    print(f'AP IoU threshold     : {AP_IOU_THRESHOLD}')
-    print(f'NSD tolerance (um)   : {args.nsd_tolerance_um}')
     print(f'Spacing (z,y,x) um   : {SPACING}')
     print(f'Voxel volume (um^3)  : {VOXEL_VOLUME_UM3}')
     print(f'Workers              : {workers}')
@@ -2608,7 +2104,6 @@ def main():
             args.match_threshold,
             args.tolerance,
             args.underseg_threshold,
-            args.nsd_tolerance_um,
         ))
 
     # Index is no longer needed in parent once jobs have exact paths.

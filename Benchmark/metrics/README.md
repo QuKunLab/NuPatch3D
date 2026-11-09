@@ -18,7 +18,7 @@ Default thresholds: matching $t=0.5$, tolerance $\epsilon=0.1$, and under-segmen
 - **False negative (FN):** $GR_{ij}<t$ for every prediction $j$.
 - **False positive (FP):** $GR_{ij}<t$ for every GT $i$. This uses **GT coverage**, not prediction coverage; extra OS fragments are not automatically FP.
 
-These categories are evaluated independently and may overlap. Rule-based comparisons use strict inequalities. The separate IoU50 matching uses an inclusive threshold on the computed IoU.
+These categories are evaluated independently and may overlap. Rule-based comparisons use strict inequalities.
 
 ## Metric Definitions
 
@@ -30,15 +30,10 @@ Let $N_G$ and $N_P$ be the numbers of GT and predicted instances.
 | `OSR` | Number of over-segmented GT instances / $N_G$. |
 | `USR` | Number of under-segmented GT instances / $N_G$. |
 | `MNR` | Number of rule-based FN instances / $N_G$. |
-| `FPR` | Number of rule-based FP instances / $N_P$. |
 | `IoU` | Mean intersection-over-union over rule-based one-to-one pairs. |
-| `HD` | Mean symmetric Hausdorff distance over rule-based pairs, in μm. |
-| `NSD` | Mean fraction of surface points within the distance tolerance of the opposite surface, over rule-based pairs; default tolerance: 1 μm. |
-| `ARI` | Adjusted Rand Index computed only on voxels where both GT and prediction are foreground. |
-| `AP_RuleBased` | $TP/(TP+FP+FN)$ using the rule-based counts above. |
-| `AP_IoU50` | $TP/(TP+FP+FN)$ after one-to-one Hungarian assignment, prioritizing the number of IoU ≥ 0.5 matches, then total assigned IoU; $FP=N_P-TP$, $FN=N_G-TP$. |
+| `AP` | $TP/(TP+FP+FN)$ using the rule-based counts above. |
 
-HD and NSD use physical surface-voxel coordinates; NSD is point-count weighted. Undefined metrics are stored as `NaN`. The AP fields are instance matching scores, not precision–recall curve integrals. IoU50 and ARI include numerical stabilization terms, which can affect threshold-boundary or degenerate cases.
+Undefined metrics are stored as `NaN`. `AP` is the rule-based instance matching score $TP/(TP+FP+FN)$, not a precision–recall curve integral. The six reported metrics are `FR`, `IoU`, `OSR`, `USR`, `MNR`, and `AP`; counts and physical volumes are auxiliary statistics.
 
 ## Input Format
 
@@ -62,7 +57,7 @@ Spacing is not read automatically from TIFF metadata. Physical volumes are repor
 Install dependencies:
 
 ```bash
-pip install numpy pandas scipy tifffile
+pip install numpy pandas tifffile
 ```
 
 Run:
@@ -75,7 +70,6 @@ python evaluate_3d_segmentation_parallel.py \
   --match-threshold 0.5 \
   --tolerance 0.1 \
   --underseg-threshold 0.5 \
-  --nsd-tolerance-um 1.0 \
   --workers 4
 ```
 
