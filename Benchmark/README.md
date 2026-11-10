@@ -26,8 +26,7 @@ Segmentation scripts require method-specific environments; Some methods also req
 ### Data access
 
 The NuPatch3D data are hosted on **OMIX** as **NuPatch3D dataset human**, **NuPatch3D dataset mouse**, and **NuPatch3D dataset label**. The human and mouse collections are publicly accessible. To obtain reference labels for evaluation, submit a data access request through the OMIX website for the **NuPatch3D dataset label** collection. We will approve requests whenever permitted by applicable policies.
-
-An additional **NuPatch3D dataset public** collection is available via the [USTC Cloud sharing link](https://pan.ustc.edu.cn/share/index/624ff2ae2f5a4bb7b247).
+And an additional **NuPatch3D dataset public** collection is available via the [USTC Cloud sharing link](https://pan.ustc.edu.cn/share/index/04b80fa42492484c9f62).
 
 See [Dataset availability](../NuPatch3D-dataset/README.md#availability) for OMIX accessions, download links, and access instructions.
 
