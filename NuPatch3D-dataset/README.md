@@ -2,18 +2,18 @@
 
 [← Repository overview](../README.md)
 
-**NuPatch3D Dataset** is a resource for 3D nuclear segmentation, containing approximately **1.01 million annotated nuclei** across **2,672 z-stacks**, **16 samples**, and **5 species**. It includes two microscopy modalities—**confocal** and **wide-field**—as well as simulated data. The newly acquired human, mouse, and label collections are hosted on OMIX, with public access planned for the human and mouse parts and access to labels upon request through the OMIX website after publication. The public collection is hosted on Zenodo.
+**NuPatch3D Dataset** is a resource for 3D nuclear segmentation, containing approximately **1.01 million annotated nuclei** across **2,672 z-stacks**, **16 samples**, and **5 species**. It includes two microscopy modalities—**confocal** and **wide-field**—as well as simulated data. The newly acquired human, mouse, and label collections are hosted on OMIX, with public access planned for the human and mouse parts and access to labels upon request through the OMIX website after publication. The public collection is hosted on USTC Cloud.
 
 ## Availability
 
-The human, mouse, and label collections are deposited in **OMIX**, while the public collection is deposited on **Zenodo** (All datasets will be released after publication of the article):
+The human, mouse, and label collections are deposited in **OMIX**, while the public collection is shared by a USTC Cloud link (All datasets will be released after publication of the article):
 
 | Data collection | Access after publication | Accession | Download link |
 | --- | --- | --- | --- |
 | **NuPatch3D dataset human** | Publicly accessible |OMIX023136 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023136) |
 | **NuPatch3D dataset mouse** | Publicly accessible |OMIX023144 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023144) |
 | **NuPatch3D dataset label** | Request access through the OMIX website, subject to applicable policies |OMIX023146 | [Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023146)|
-| **NuPatch3D dataset public** | Publicly accessible |zenodo.23874946 |[Download here](https://zenodo.org/records/23874946) |
+| **NuPatch3D dataset public** | Publicly accessible |- |[Download here](https://pan.ustc.edu.cn/share/index/04b80fa42492484c9f62) |
 
 To access the **NuPatch3D dataset label** collection, submit a data access request through the OMIX website for the corresponding collection. We welcome requests and will approve them whenever permitted by applicable policies.
 
