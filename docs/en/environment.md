@@ -37,7 +37,7 @@ git clone https://github.com/QuKunLab/NuPatch3D.git
 cd "NuPatch3D/NuPatch3D-tool"
 
 # 5. Install NuPatch3D
-pip install .
+pip install -e .
 ```
 
 ## 2.3 Uninstallation
