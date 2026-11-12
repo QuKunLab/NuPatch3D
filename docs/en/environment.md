@@ -13,7 +13,7 @@ NuPatch3D is a plugin developed based on [napari](https://napari.org/). It is cu
 
 The plugin requires **Python >=3.10** (Python 3.11 recommended), **NumPy >=2.0,<3**, and **napari >=0.6,<0.7**. The NumPy minimum is required by `np.asarray(..., copy=True)`. These are dependency and API requirements, not a claim that every version combination has been runtime-tested. Benchmark segmentation methods should use separate, method-specific environments.
 
-At present, NuPatch3D is only available via GitHub source installation. Follow the steps below:
+NuPatch3D can now be installed directly using pip. Follow the steps below:
 
 ```bash
 # 1. Create a Conda environment
