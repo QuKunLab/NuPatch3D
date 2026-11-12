@@ -10,8 +10,8 @@ The human, mouse, and label collections are deposited in **OMIX**, while the pub
 
 | Data collection | Access after publication | Accession | Download link |
 | --- | --- | --- | --- |
-| **NuPatch3D dataset human** | Publicly accessible |OMIX023136 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023136) |
-| **NuPatch3D dataset mouse** | Publicly accessible |OMIX023144 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023144) |
+| **NuPatch3D dataset human** | Publicly accessible |OMIX023136 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023136) (unreleased now)|
+| **NuPatch3D dataset mouse** | Publicly accessible |OMIX023144 |[Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023144) (unreleased now)|
 | **NuPatch3D dataset label** | Request access through the OMIX website, subject to applicable policies |OMIX023146 | [Download here](https://ngdc.cncb.ac.cn/omix/release/OMIX023146)|
 | **NuPatch3D dataset public** | Publicly accessible |- |[Download here]()(unreleased now) |
 
