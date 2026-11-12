@@ -17,16 +17,16 @@ NuPatch3D 是一款基于 [napari](https://napari.org/) 开发的插件，目前
 
 ```bash
 # 1. 创建 Conda 环境
-conda create -n napari-env python=3.11
+conda create -n NuPatch3D python=3.11
 
 # 2. 激活环境
-conda activate napari-env
+conda activate NuPatch3D
 
 # 3. 安装 napari
 pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
-# 4. 从 GitHub 直接安装 NuPatch3D
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D-tool"
+# 4. 安装 NuPatch3D
+pip install NuPatch3D
 ```
 
 若希望将仓库克隆到本地（例如进行开发调试），可执行以下步骤：
