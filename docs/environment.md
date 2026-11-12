@@ -13,7 +13,7 @@
 
 NuPatch3D 是一款基于 [napari](https://napari.org/) 开发的插件，目前已适配 napari 0.6 版本。其他版本的 napari 可能存在兼容性问题。
 
-目前，NuPatch3D 仅提供通过 GitHub 源码安装的方式，具体步骤如下：
+NuPatch3D 现已支持通过 pip 直接安装，具体步骤如下：
 
 ```bash
 # 1. 创建 Conda 环境
