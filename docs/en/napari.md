@@ -8,7 +8,7 @@ This section introduces the basic [napari](https://napari.org/) operations requi
 If napari is not yet installed, please run the following command in the target Python environment (note: this plugin is adapted and tested for napari 0.6; other versions may have compatibility issues):
 
 ```bash
-pip install "napari[all]"
+pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 ```
 After installation, launch napari by running the following command in the terminal:
 
