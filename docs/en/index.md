@@ -5,7 +5,7 @@
 
 <div style="text-align: center; margin: 2em 0;">
   <div id="video-wrap" style="position: relative; width: 80%; max-width: 800px; margin: 0 auto; aspect-ratio: 16/9; background: #000;">
-    <img id="video-poster" src="https://img.youtube.com/vi/HgknF05EYHs/0.jpg" 
+    <img id="video-poster" src="../images/media/image4.png" 
          style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; cursor: pointer; z-index: 1;" 
          onclick="loadVideo()">
     <div onclick="loadVideo()" 
