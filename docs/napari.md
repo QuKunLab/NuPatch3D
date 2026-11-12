@@ -8,7 +8,7 @@
 如尚未安装 napari，请在目标 Python 环境中运行以下命令（注意：本插件针对 napari 0.6 版本进行了适配和测试，其他版本可能存在兼容性问题）：
 
 ```bash
-pip install "napari[all]"
+pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 ```
 安装完成后，在终端中运行以下命令启动 napari：
 
