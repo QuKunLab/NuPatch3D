@@ -52,8 +52,8 @@ Launch napari with `napari`, then open **Plugins → NuPatch3D (NuPatch-3D)**. L
 
 ## Documentation
 
-- [English user manual](https://qukunlab.github.io/NuPatch3D/docs/en/)
-- [中文用户手册](https://qukunlab.github.io/NuPatch3D-tool/docs/)
+- [English user manual](https://github.com/QuKunLab/NuPatch3D/docs/en/)
+- [中文用户手册](https://github.com/QuKunLab/NuPatch3D/docs/)
 - [Installation and setup](../docs/en/environment.md)
 - [Loading images and segmentation labels](../docs/en/loading.md)
 - [Saving results](../docs/en/save.md) and [recovering edits](../docs/en/restore.md)
