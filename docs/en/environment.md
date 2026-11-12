@@ -17,16 +17,16 @@ At present, NuPatch3D is only available via GitHub source installation. Follow t
 
 ```bash
 # 1. Create a Conda environment
-conda create -n napari-env python=3.11
+conda create -n NuPatch3D python=3.11
 
 # 2. Activate the environment
-conda activate napari-env
+conda activate NuPatch3D
 
 # 3. Install napari
 pip install "numpy>=2.0,<3" "napari[all]>=0.6,<0.7"
 
-# 4. Install NuPatch3D directly from GitHub
-pip install "git+https://github.com/QuKunLab/NuPatch3D.git#subdirectory=NuPatch3D-tool"
+# 4. Install NuPatch3D
+pip install NuPatch3D
 ```
 
 Alternatively, if you prefer to clone the repository locally (e.g., for development):
