@@ -1,11 +1,28 @@
 /* ========== 普通文档图片居中（不影响视频封面） ========== */
-.md-typeset img:not(#bili-poster) {
+.md-typeset img:not(#bili-poster):not(#video-poster) {
     display: block;
     max-width: 70%;
     height: auto;
     margin: 1.5em auto;
     border-radius: 4px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ========== 视频封面：Bilibili（中文）与 YouTube（英文） ========== */
+.md-typeset #bili-poster,
+.md-typeset #video-poster {
+    position: absolute;
+    inset: 0;
+    left: 0;
+    transform: none;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 /* ========== 段落 ========== */
