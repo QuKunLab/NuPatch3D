@@ -1,15 +1,11 @@
-/* ========== 图片强制居中（兼容 Edge） ========== */
-.md-typeset img {
+/* ========== 普通文档图片居中（不影响视频封面） ========== */
+.md-typeset img:not(#bili-poster) {
     display: block;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
     max-width: 70%;
     height: auto;
+    margin: 1.5em auto;
     border-radius: 4px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
 }
 
 /* ========== 段落 ========== */
@@ -55,7 +51,7 @@
     margin: 0 10px;
 }
 
-/* 关键：用 !important 覆盖全局 img 的 transform 居中 */
+/* ========== 并排图片单独控制宽度与间距 ========== */
 .md-typeset .figure-row .figure-item img {
     position: static !important;
     left: auto !important;
