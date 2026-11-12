@@ -1,0 +1,1310 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://qukunlab.github.io/NuPatch3D/en/under/">
+      
+      
+        <link rel="prev" href="../loading/">
+      
+      
+        <link rel="next" href="../over/">
+      
+      
+        
+          <link rel="alternate" href="../../under/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Under-segmentation - NuPatch3D User Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#under-segmentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="NuPatch3D User Manual" class="md-header__button md-logo" aria-label="NuPatch3D User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NuPatch3D User Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Under-segmentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../under/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="NuPatch3D User Manual" class="md-nav__button md-logo" aria-label="NuPatch3D User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NuPatch3D User Manual
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NuPatch3D Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../napari/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Napari Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../loading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segmentation Repair
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segmentation Repair
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Under-segmentation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Under-segmentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-plane-mode-plane-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plane Mode (Plane Splitting)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plane Mode (Plane Splitting)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-set-target-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Set Target Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-create-splitting-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Create Splitting Plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-adjust-the-splitting-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Adjust the Splitting Plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-execute-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Execute Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-auto-mode-gmm-auto-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Auto Mode (GMM Auto Splitting)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Auto Mode (GMM Auto Splitting)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-set-algorithm-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Set Algorithm Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-set-target-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Set Target Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#423-execute-auto-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.3 Execute Auto Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-manual-mode-manually-specify-centers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Manual Mode (Manually Specify Centers)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Manual Mode (Manually Specify Centers)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#431-set-cell-centers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.1 Set Cell Centers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#432-execute-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.2 Execute Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-connected-components-relabeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Connected Components Relabeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../over/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Over-segmentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boundary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Fix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../missing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Missing Cell Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Save & Recovery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Save & Recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Save
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-plane-mode-plane-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plane Mode (Plane Splitting)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plane Mode (Plane Splitting)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-set-target-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Set Target Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-create-splitting-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Create Splitting Plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-adjust-the-splitting-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Adjust the Splitting Plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-execute-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Execute Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-auto-mode-gmm-auto-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Auto Mode (GMM Auto Splitting)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Auto Mode (GMM Auto Splitting)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-set-algorithm-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Set Algorithm Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-set-target-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Set Target Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#423-execute-auto-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.3 Execute Auto Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-manual-mode-manually-specify-centers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Manual Mode (Manually Specify Centers)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Manual Mode (Manually Specify Centers)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#431-set-cell-centers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.1 Set Cell Centers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#432-execute-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.2 Execute Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-connected-components-relabeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Connected Components Relabeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="under-segmentation">Under-segmentation<a class="headerlink" href="#under-segmentation" title="Permanent link">&para;</a></h1>
+<p>Under-segmentation refers to multiple independent cells being incorrectly labeled with the same label. NuPatch3D provides three under-segmentation repair modes:</p>
+<ul>
+<li><kbd>Plane</kbd>: Manual splitting based on a segmentation plane;</li>
+<li><kbd>Auto</kbd>: Automatic splitting based on GMM;</li>
+<li><kbd>Manual</kbd>: GMM splitting with manually specified cell centers.</li>
+</ul>
+<p>The three modes share the same set of <kbd>Target Labels</kbd>, and can be combined with <kbd>Connected Components Split</kbd> for post-processing.</p>
+<p>In the <kbd>Cell Boundary Refine</kbd> region of the plugin panel, select the splitting mode via the <kbd>Mode</kbd> drop-down box in the <kbd>Under-segmentation (Split)</kbd> area.</p>
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image9.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 9. Under-segmentation Panel</div>
+</div>
+
+<p>After label repair, you must click the <kbd>Commit</kbd> button in the <kbd>Interaction</kbd> region, or press the shortcut <kbd>Shift</kbd>+<kbd>S</kbd>, to write the modified results back to the global <kbd>Labels</kbd> layer. Otherwise, the repaired labels will only be saved in the current local editing region and will not be synchronized to the global label layer. For detailed instructions on committing and saving results, please refer to <a href="../save/">Save</a>.</p>
+<h2 id="41-plane-mode-plane-splitting">4.1 Plane Mode (Plane Splitting)<a class="headerlink" href="#41-plane-mode-plane-splitting" title="Permanent link">&para;</a></h2>
+<p>Applicable when two cells can be separated by a single plane.</p>
+<h3 id="411-set-target-labels">4.1.1 Set Target Labels<a class="headerlink" href="#411-set-target-labels" title="Permanent link">&para;</a></h3>
+<p>Enter the label IDs to be split in the <kbd>Target Labels</kbd> input box. Multiple labels are separated by spaces, for example:</p>
+<div class="highlight"><pre><span></span><code>114 514
+</code></pre></div>
+<h3 id="412-create-splitting-plane">4.1.2 Create Splitting Plane<a class="headerlink" href="#412-create-splitting-plane" title="Permanent link">&para;</a></h3>
+<p>Click <kbd>Draw a Plane</kbd>.</p>
+<p>If no plane reference point has been created yet, NuPatch3D will create the <kbd>Plane Label Splitting-Points</kbd> layer (blue points) and automatically enter point selection mode. At this point, switch to the 2D view and click once near the target cell to determine the plane center.</p>
+<p>After completion, NuPatch3D will automatically create:</p>
+<ul>
+<li><kbd>Plane Label Splitting-Shapes</kbd>: The splitting plane and normal vector;</li>
+<li><kbd>Plane-Spherical-Axes</kbd>: 3D reference coordinate axes.</li>
+</ul>
+<p>At the same time, the <kbd>X</kbd>, <kbd>Y</kbd>, <kbd>Z</kbd> and <kbd>Phi</kbd>, <kbd>Theta</kbd> parameters will be automatically synchronized to the current plane position and orientation.</p>
+<p>The above auxiliary layers are only used for interactive positioning and can be cleaned up with the shortcut <kbd>Shift</kbd>+<kbd>C</kbd>.</p>
+<h3 id="413-adjust-the-splitting-plane">4.1.3 Adjust the Splitting Plane<a class="headerlink" href="#413-adjust-the-splitting-plane" title="Permanent link">&para;</a></h3>
+<p>Adjust the plane position and orientation via the following parameters:</p>
+<ul>
+<li><kbd>X</kbd>, <kbd>Y</kbd>, <kbd>Z</kbd>: Plane center coordinates;</li>
+<li><kbd>Phi</kbd>, <kbd>Theta</kbd>: Plane normal vector direction.</li>
+</ul>
+<p>During adjustment, the 3D view will update the plane position in real time until it is located at the boundary between the target cells.</p>
+<h3 id="414-execute-splitting">4.1.4 Execute Splitting<a class="headerlink" href="#414-execute-splitting" title="Permanent link">&para;</a></h3>
+<p>Click <kbd>Split by Plane</kbd>. NuPatch3D will divide the voxels on both sides of the plane into different labels. After completion, you can check the splitting results in the 2D or 3D view.</p>
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image10.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 10. Plane Construction and Adjustment</div>
+</div>
+
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image11.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 11. Plane Splitting Result Example</div>
+</div>
+
+<h2 id="42-auto-mode-gmm-auto-splitting">4.2 Auto Mode (GMM Auto Splitting)<a class="headerlink" href="#42-auto-mode-gmm-auto-splitting" title="Permanent link">&para;</a></h2>
+<p>Auto mode automatically identifies and separates under-segmented cells based on the Gaussian Mixture Model (GMM). It is suitable for scenarios where cell boundaries are relatively clear and no manual segmentation position is required.</p>
+<h3 id="421-set-algorithm-parameters">4.2.1 Set Algorithm Parameters<a class="headerlink" href="#421-set-algorithm-parameters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><kbd>Sampling Rate</kbd>: Voxel sampling ratio (default: 0.3), used to control the number of samples participating in GMM training. The smaller the value, the faster the running speed; the larger the value, the more stable the result usually is.</li>
+<li><kbd>Split Dist</kbd>: Splitting threshold (default: 10). If the cell diameter is greater than this value, splitting is performed; otherwise, it is not.</li>
+<li><kbd>Merge Dist</kbd>: Merging threshold (default: 3). If the distance between two cells is less than this value, they are merged; otherwise, they are not.</li>
+</ul>
+<h3 id="422-set-target-labels">4.2.2 Set Target Labels<a class="headerlink" href="#422-set-target-labels" title="Permanent link">&para;</a></h3>
+<p>Enter the label IDs to be automatically split in the <kbd>Target Labels</kbd> input box. Multiple labels are separated by spaces.</p>
+<p>If left blank, automatic splitting will be performed on all non-zero labels within the current local editing region (Bounding Box).</p>
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image12.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 12. Auto Mode Panel</div>
+</div>
+
+<h3 id="423-execute-auto-splitting">4.2.3 Execute Auto Splitting<a class="headerlink" href="#423-execute-auto-splitting" title="Permanent link">&para;</a></h3>
+<p>Click <kbd>Under-segmentation Fix</kbd>. NuPatch3D will automatically complete cluster analysis, cell center optimization, and label reassignment, and assign unique label IDs to newly generated cells to ensure no conflict with existing labels. After splitting, cell centers will be automatically updated.</p>
+<div style="text-align: center; margin: 2em 0;">
+  <div style="display: inline-block; vertical-align: middle; text-align: center; width: 280px; margin: 0 15px;">
+    <img src="../../images/media/image14.png" style="width: 100%; display: block; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 13. Before Auto Splitting</div>
+  </div>
+  <div style="display: inline-block; vertical-align: middle; font-size: 2.5em; color: #888; margin: 0 5px;">→</div>
+  <div style="display: inline-block; vertical-align: middle; text-align: center; width: 280px; margin: 0 15px;">
+    <img src="../../images/media/image13.png" style="width: 100%; display: block; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 14. After Auto Splitting</div>
+  </div>
+</div>
+
+<h2 id="43-manual-mode-manually-specify-centers">4.3 Manual Mode (Manually Specify Centers)<a class="headerlink" href="#43-manual-mode-manually-specify-centers" title="Permanent link">&para;</a></h2>
+<p>Manual mode is suitable for cases where automatic splitting results are not ideal. Users can manually specify cell center positions to guide NuPatch3D in completing the split.</p>
+<h3 id="431-set-cell-centers">4.3.1 Set Cell Centers<a class="headerlink" href="#431-set-cell-centers" title="Permanent link">&para;</a></h3>
+<p>Cell centers can be specified in the following two ways:</p>
+<p><strong>Method 1: Manual Coordinate Input</strong></p>
+<p>Enter the cell center coordinates in the <kbd>Coords of Centers</kbd> input box in the format:</p>
+<div class="highlight"><pre><span></span><code>Z,Y,X
+</code></pre></div>
+<p>Multiple center coordinates are separated by spaces, for example:</p>
+<div class="highlight"><pre><span></span><code>10,20,30 15,25,35
+</code></pre></div>
+<p><strong>Method 2: Interactive Point Selection</strong></p>
+<p>Click <kbd>Select Coordinates</kbd>. NuPatch3D will create the <kbd>GMM-Coordinates</kbd> layer and automatically enter point selection mode. At this point, switch to the 2D view and click sequentially at the center positions of the target cells to add marker points.</p>
+<p>After point selection is completed, NuPatch3D will automatically:</p>
+<ul>
+<li>Synchronize the coordinates to <kbd>Coords of Centers</kbd>;</li>
+<li>Identify the corresponding labels and fill them into <kbd>Target Labels</kbd>.</li>
+</ul>
+<p><kbd>GMM-Coordinates</kbd> is only used for auxiliary point selection and does not participate in the final splitting calculation. After splitting is completed, this auxiliary layer can be deleted via the shortcut <kbd>Shift</kbd>+<kbd>C</kbd>.</p>
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image15.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 15. Manual Mode Point Selection Example</div>
+</div>
+
+<h3 id="432-execute-splitting">4.3.2 Execute Splitting<a class="headerlink" href="#432-execute-splitting" title="Permanent link">&para;</a></h3>
+<p>Click <kbd>Under-segmentation Fix</kbd>. NuPatch3D will use the user-specified center coordinates as initial cell centers to perform splitting on <kbd>Target Labels</kbd>, and automatically update the label results.</p>
+<div style="text-align: center; margin: 1.5em 0;">
+  <img src="../../images/media/image16.png" style="max-width: 70%; height: auto; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+  <div style="color: #666; font-size: 0.9em; margin-top: 0.5em;">Figure 16. Manual Mode Splitting Result Example</div>
+</div>
+
+<h2 id="44-connected-components-relabeling">4.4 Connected Components Relabeling<a class="headerlink" href="#44-connected-components-relabeling" title="Permanent link">&para;</a></h2>
+<p>If the same label contains multiple disconnected regions, click <kbd>Connected Components Split</kbd> to process it.</p>
+<p>NuPatch3D will perform 3D connected component analysis on each label in <kbd>Target Labels</kbd>, retain the original label for the largest connected component, and automatically assign new label IDs to the remaining connected components, thereby resolving under-segmentation.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../javascripts/lang-switcher.js"></script>
+      
+    
+  </body>
+</html>

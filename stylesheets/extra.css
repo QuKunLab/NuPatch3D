@@ -1,0 +1,89 @@
+/* ========== 普通文档图片居中（不影响视频封面） ========== */
+.md-typeset img:not(#bili-poster):not(#video-poster) {
+    display: block;
+    max-width: 70%;
+    height: auto;
+    margin: 1.5em auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ========== 视频封面：Bilibili（中文）与 YouTube（英文） ========== */
+.md-typeset #bili-poster,
+.md-typeset #video-poster {
+    position: absolute;
+    inset: 0;
+    left: 0;
+    transform: none;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* ========== 段落 ========== */
+.md-typeset p {
+    line-height: 1.8;
+    margin-bottom: 1em;
+}
+
+/* ========== 标题 ========== */
+.md-typeset h2 {
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.3em;
+}
+
+.md-typeset h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.6em;
+}
+
+/* ========== 图注 ========== */
+.caption {
+    display: block;
+    text-align: center;
+    color: #666;
+    font-size: 0.9em;
+    margin-top: -0.5em;
+    margin-bottom: 1.5em;
+}
+
+/* ========== 并排图片（inline-block，兼容所有浏览器） ========== */
+.md-typeset .figure-row {
+    text-align: center;
+    margin: 2em 0;
+}
+
+.md-typeset .figure-row .figure-item {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 40%;
+    margin: 0 10px;
+}
+
+/* ========== 并排图片单独控制宽度与间距 ========== */
+.md-typeset .figure-row .figure-item img {
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
+    display: block;
+    margin: 0 auto 0.5em !important;
+    max-width: 100% !important;
+    height: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.md-typeset .figure-row .arrow {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 2.5em;
+    color: #888;
+    margin: 0 5px;
+}
